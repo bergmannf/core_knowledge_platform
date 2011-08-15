@@ -1,4 +1,5 @@
 import os
+import posixpath
 # Django settings for core_knowledge_platform project.
 
 DEBUG = True
@@ -54,12 +55,14 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/site_media/media/'
+
+STATIC_URL = '/site_media/static/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = posixpath.join(STATIC_URL, 'admin/')
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'w&$(086@fway6&7rgtgl#gwt0%343$%prvintrngtuyyc-ow2&'
@@ -70,6 +73,8 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
+
+AUTH_PROFILE_MODULE='core_web_service.UserProfile'
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -97,6 +102,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'core_knowledge_platform.core_web_service',
+    'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -104,8 +110,6 @@ INSTALLED_APPS = (
     # South is a database migration layer.
     'south',
 )
-
-AUTH_PROFILE_MODULE = "core_web_service.UserProfile"
 
 LOGGING = {
     'version': 1,
@@ -142,3 +146,8 @@ LOGGING = {
         }
     }
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
